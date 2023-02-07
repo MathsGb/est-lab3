@@ -3,7 +3,7 @@ public class ListaArray implements EstruturaDeDados{
 
     @Override
     public boolean insert(int chave) {
-        // TODO Auto-generated method stub
+        
         return false;
     }
 
@@ -45,5 +45,6 @@ public class ListaArray implements EstruturaDeDados{
 
     public static void main(String[] args) {
         ListaArray r = new ListaArray();
+
     }
 }
