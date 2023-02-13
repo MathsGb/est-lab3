@@ -43,8 +43,8 @@ public class ListaArray implements EstruturaDeDados{
         return 0;
     }
 
-    public static void main(String[] args) {
-        ListaArray r = new ListaArray();
+    // public static void main(String[] args) {
+    //     ListaArray r = new ListaArray();
 
-    }
+    // }
 }

@@ -1,5 +1,6 @@
 public class ListaLigada implements EstruturaDeDados{
     public No inicio;
+    public int MenorDeTodos = 0;
 
     // public void removeInicio (){
     //     if (inicio != null)
@@ -97,9 +98,15 @@ public class ListaLigada implements EstruturaDeDados{
     @Override
     public boolean insert(int chave)
     {
-        No n = inicio;
-        
-        if(inicio.getProximo() == null)
+        No temporário = inicio;
+
+        if(inicio == null){
+            inicio = new No(chave);
+            
+            return true;
+        }
+
+        else if(inicio.getProximo() == null)
         {
             this.inicio.setProximo(new No(chave)); 
             return true;
@@ -107,15 +114,16 @@ public class ListaLigada implements EstruturaDeDados{
 
         else
         {
-            while(n.getProximo() != null)
+            while(temporário.getProximo() != null)
             {
-                if(n.getProximo() == null){
-                    n.setProximo(new No(chave));
+                temporário = temporário.getProximo();
+                if(temporário.getProximo() == null){
+                    temporário.setProximo(new No(chave));
+                    return true;
                 }
             } 
-            return true;
+            return false;
         }
-        return false;
     }
 
     // @Override
@@ -132,98 +140,139 @@ public class ListaLigada implements EstruturaDeDados{
     
     @Override
     public boolean delete(int chave) {
-        No Save;
+        No Save = inicio;
 
-        Save = inicio;
         if(inicio.getValor() == chave){
             inicio = inicio.getProximo();
+            return true;
         }
 
         else
         {
-        while(Save.getValor() != chave && Save.getProximo() != null)
-        {
-            if(Save.getProximo().getValor() == chave)
+            while(Save.getValor() != chave && Save.getProximo() != null)
             {
-                Save.setProximo(Save.getProximo().getProximo());
-                return true;
+                if(Save.getProximo().getValor() == chave)
+                {
+                    Save.setProximo(Save.getProximo().getProximo());
+                    return true;
+                }
+                Save = Save.getProximo();
             }
-            Save = Save.getProximo();
-        }
         
         return false;
         }
     }
     
     @Override
-    public boolean search(int chave) {
-        No Save;
+    public boolean search(int chave)
+    {
+        No Save = inicio;
 
-        Save = inicio;
         if(Save.getValor() == chave){
             return true;
         }
 
         else{
             while(Save.getValor() != chave && Save.getProximo() != null){
+
+                Save = Save.getProximo();
                 if(Save.getValor() == chave){
                     return true;
                 }
-                Save = Save.getProximo();
         }
-
         return false;
         }
     }
 
     @Override
-    public int minimum() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int minimum(){
+        No Save = inicio;
+        int minimo = Save.getValor();
+
+        while(Save.getProximo() != null){
+            Save = Save.getProximo();
+            if(Save.getValor() < minimo){
+                minimo = Save.getValor();
+            }
+        }
+        return minimo;
     }
     
     @Override
     public int maximum() {
-        // TODO Auto-generated method stub
-        return 0;
+                No Save = inicio;
+        int maximo = Save.getValor();
+
+        while(Save.getProximo() != null){
+            Save = Save.getProximo();
+            if(Save.getValor() > maximo){
+                maximo = Save.getValor();
+            }
+        }
+        return maximo;
     }
     
     @Override
     public int sucessor(int chave) {
-        // TODO Auto-generated method stub
-        return 0;
+        No Procurado = searchEspecifico(chave);
+        if (Procurado.getValor() == chave && Procurado.getProximo() != null){
+            return Procurado.getProximo().getValor();
+        }
+        
+        return -1;
     }
     
     @Override
     public int prodessor(int chave) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-    
-    public No getInicio(){
-        return inicio;
+        if(inicio.getValor() == chave){
+            return -1;
+        }
+
+        No Save = inicio;
+        No Proximo = searchEspecifico(chave);
+
+        while(Save.getProximo() != null){
+
+            if(Save.getProximo() == Proximo){
+                return Save.getValor();
+            }
+        }
+        return -1;
     }
 
+    public No searchEspecifico(int chave)
+    {
+        No Save = inicio;
+
+        if(Save.getValor() == chave){
+            return Save;
+        }
+
+        else{
+            while(Save.getValor() != chave && Save.getProximo() != null){
+                Save = Save.getProximo();
+                if(Save.getValor() == chave){
+                    return Save;
+                }
+        }
+        return null;
+        }
+    }
     
+
     public static void main(String[] args)
     {
-        No Origem = ListaLigada.getInicio()
+        ListaLigada Começo = new ListaLigada();
         
-        // Origem = new No(0);
+        Começo.insert(0);
+        Começo.insert(1);
+        Começo.insert(2);
+        Começo.insert(3);
 
-        // Origem.insert(2);
-
-
+        Começo.delete(1);
+        System.out.println(Começo.prodessor(0));
         
         
-    
-        // for (int i = 0; i < 100; i++) {
-        //     System.out.println(i);
-        //     if (i == 50){
-        //         break;
-        //     }
-        // }
-        // System.out.println("fim");
     }
 }
 
